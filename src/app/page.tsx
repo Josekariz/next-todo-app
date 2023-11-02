@@ -1,11 +1,10 @@
 import { prisma } from "@/db";
 import Link from "next/link";
 import { Todoitem } from "../components/Todoitem";
+import { redirect } from "next/navigation";
 
 
-function getTodo() {
-  return prisma.todo.findMany();
-}
+
 
 async function toggleTodo(id: string, complete: boolean) {
   "use server";
@@ -22,8 +21,7 @@ async function toDelete(id: string) {
     
     if (existingTodo) {
       await prisma.todo.delete({ where: { id } });
-      
-     
+    
 
     } else {
       console.error(`Todo with id ${id} does not exist.`);
@@ -33,6 +31,9 @@ async function toDelete(id: string) {
   }
 }
 
+function getTodo() {
+  return prisma.todo.findMany();
+}
 
 
 export default async function Home() {
@@ -51,7 +52,7 @@ export default async function Home() {
       </header>
 
       <ul className="pl-4">
-        {todos.map((todo) => (
+        {todos && todos.map((todo) => (
           <Todoitem key={todo.id} {...todo} toggleTodo={toggleTodo} toDelete={toDelete} />
         ))}
       </ul>
