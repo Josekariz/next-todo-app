@@ -1,0 +1,15 @@
+{
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/prisma/generate",
+        "dest": "/api/prisma/generate.js"
+      }
+    ]
+  }
+  
