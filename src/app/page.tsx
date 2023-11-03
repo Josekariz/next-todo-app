@@ -1,7 +1,8 @@
 import { prisma } from "@/db";
 import Link from "next/link";
 import { Todoitem } from "../components/Todoitem";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+
 
 
 
@@ -22,7 +23,7 @@ async function toDelete(id: string) {
     if (existingTodo) {
       await prisma.todo.delete({ where: { id } });
     
-
+      revalidatePath("/")
     } else {
       console.error(`Todo with id ${id} does not exist.`);
     }
